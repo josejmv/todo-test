@@ -1,0 +1,13 @@
+@import '../variables.scss';
+
+.container {
+  background: $dark;
+  color: $white;
+  text-align: center;
+  :global(.p-sidebar-content) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,22 @@
+@import '../variables.scss';
+
+.container {
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    width: 30%;
+    &_header {
+      text-align: center;
+      & > h1 {
+        font-size: 24px;
+        font-weight: bolder;
+      }
+    }
+    &_body {
+      text-align: center;
+    }
+  }
+}
