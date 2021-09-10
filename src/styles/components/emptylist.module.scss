@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  background: rgb(95, 95, 95);
+  border-radius: 7px;
+  padding: 0.5rem 2rem;
+  border: none;
+  .text {
+    padding: 0;
+    margin: 0;
+    @media (max-width: 500px) {
+      font-size: 32px;
+    }
+  }
+}
