@@ -1,0 +1,27 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgb(95, 95, 95);
+  border-radius: 7px;
+  padding: 0.5rem 2rem;
+  border: none;
+  margin: 0 0 0.7rem;
+  .checkbox {
+    margin: 0;
+    & input {
+      margin-right: 1rem;
+    }
+    &_completed {
+      & label {
+        text-decoration: line-through;
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

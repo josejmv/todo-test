@@ -1,0 +1,17 @@
+@import '../variables.scss';
+
+.container {
+  color: $dark;
+  .header {
+    justify-content: center;
+  }
+}
+
+.calendar {
+  width: 100%;
+  &_panel {
+    & tbody td {
+      padding: 0;
+    }
+  }
+}

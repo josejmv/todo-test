@@ -6,6 +6,9 @@ import { ArrowRight } from 'react-bootstrap-icons'
 import { FC } from 'react'
 import { NavbarType } from 'types/molecules'
 
+/**
+ * handle show sidebar
+ */
 export const Navbar: FC<NavbarType> = ({ setShow }) => (
   <BsNavbar sticky='top' collapseOnSelect expand='lg' className='bg-black'>
     <NavbarBrand>

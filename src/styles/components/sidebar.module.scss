@@ -10,4 +10,12 @@
     flex-direction: column;
     justify-content: space-between;
   }
+  .avatar {
+    background: #2196f3;
+    color: $white;
+  }
+  .category {
+    margin-top: 1rem;
+    width: 100%;
+  }
 }

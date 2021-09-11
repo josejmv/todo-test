@@ -34,6 +34,14 @@ const options = {
         email: { type: 'email' },
         password: { type: 'password' },
       },
+
+      /**
+       * verify if the email is found in 8base
+       * and if the password is equal to "JoseJMV"
+       *
+       * @param credentials
+       * @returns
+       */
       async authorize(credentials: { email: string; password: string }) {
         const apolloClient = initializeApolloClient()
         const { data } = await apolloClient.query({
