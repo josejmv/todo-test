@@ -47,7 +47,7 @@ export const DeleteTaskModal: FC<ModalType> = ({
       setLoading(false)
       setShow(false)
     } catch (error) {
-      console.log(error)
+      console.log('ERROR', error)
     }
   }
 
