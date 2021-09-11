@@ -22,7 +22,7 @@ import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
-  const apolloClient = useApollo(pageProps.initialApolloState)
+  const apolloClient = useApollo(pageProps.initialApolloState) // initialize apollo client
 
   return (
     <>

@@ -21,6 +21,10 @@ export const Sidebar: FC<SidebarType> = ({ show, setShow }) => {
   const [avatarState, setAvatarState] = useState({})
   const [session, loading] = useSession()
 
+  /**
+   * verify the session and set the
+   * avatar picture or initial letter to show
+   */
   useEffect(() => {
     if (session) {
       if (session.user.image) setAvatarState({ image: session.user.image })
@@ -53,7 +57,7 @@ export const Sidebar: FC<SidebarType> = ({ show, setShow }) => {
         )
       )}
       <Button
-        variant='outline-primary'
+        variant='outline-light'
         type='button'
         onClick={() => signOut({ callbackUrl: '/login' })}
       >

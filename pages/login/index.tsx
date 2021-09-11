@@ -19,11 +19,19 @@ const LoginPage: NextPage = () => {
   const [providers, setProviders] = useState<ClientSafeProvider[]>([])
   const router = useRouter()
 
+  /**
+   * handle change and disable the
+   * validation in the form
+   */
   const handleChange = (ev: ChangeType) => {
     validated && setValidated(false)
     setData((prev) => ({ ...prev, [ev.target.name]: ev.target.value }))
   }
 
+  /**
+   * verify if all the data is setted and
+   * send credentials to nextauth
+   */
   const handleSubmit = (ev: SubmitType) => {
     ev.preventDefault()
     const form = ev.currentTarget
@@ -32,6 +40,10 @@ const LoginPage: NextPage = () => {
     } else signIn('credentials', { ...data, callbackUrl: '/' })
   }
 
+  /**
+   * get nextauth providers setted
+   * it's only Google
+   */
   useEffect(() => {
     ;(async () => {
       const prov = await getProviders().then((res) =>
@@ -43,7 +55,7 @@ const LoginPage: NextPage = () => {
 
   return (
     <Container className={styles.container}>
-      <Card bg='primary' text='secondary' className={styles.card}>
+      <Card text='dark' className={styles.card}>
         <Card.Header className={styles.card_header}>
           <h1>Login</h1>
         </Card.Header>
@@ -81,7 +93,7 @@ const LoginPage: NextPage = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant='secondary' className='my-3 w-100' type='submit'>
+            <Button variant='dark' className='my-3 w-100' type='submit'>
               Login
             </Button>
             {router.query.error && (
@@ -91,16 +103,16 @@ const LoginPage: NextPage = () => {
         </Card.Body>
         <Card.Footer className={styles.card_body}>
           {providers.length === 0 ? (
-            <Spinner animation='grow' />
+            <Spinner animation='grow' variant='light' />
           ) : (
             providers.map(
               (prov) =>
                 prov.id !== 'credentials' && (
                   <Button
-                    block
+                    className='w-100'
                     key={prov.name}
                     size='lg'
-                    variant='outline-secondary'
+                    variant='outline-dark'
                     onClick={() =>
                       signIn(prov.id, { redirect: true, callbackUrl: '/' })
                     }

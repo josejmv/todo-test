@@ -8,6 +8,10 @@ import { Navbar } from 'components/molecules/Navbar'
 // types
 import { FC } from 'react'
 
+/**
+ * shared components like navbar and
+ * sidebar in all the web site
+ */
 export const Layout: FC = ({ children }) => {
   const [show, setShow] = useState(false)
 
