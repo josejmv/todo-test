@@ -1,5 +1,5 @@
 // main tools
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 
 // lib
@@ -31,7 +31,8 @@ import { ChangeType } from 'types/utils'
 export const TaskItem: FC<TaskItemType> = (props) => {
   const [editTask, setEditTask] = useState(false)
   const [deleteTask, setDeleteTask] = useState(false)
-  const [completed, setComplete] = useState(props.completed)
+  const [completed, setCompleted] = useState(props.completed)
+  console.log(props.completed, completed)
 
   /**
    * complete task mutation
@@ -49,7 +50,7 @@ export const TaskItem: FC<TaskItemType> = (props) => {
   const handleDelete = () => setDeleteTask(true)
   const handleComplete = async (ev: ChangeType) => {
     try {
-      setComplete(ev.target.checked)
+      setCompleted(ev.target.checked)
       const res = await completeTask({
         variables: { id: props.id, completed: ev.target.checked },
       })
@@ -57,6 +58,8 @@ export const TaskItem: FC<TaskItemType> = (props) => {
       console.log(error)
     }
   }
+
+  useEffect(() => setCompleted(props.completed), [props.completed])
 
   return (
     <div className={styles.container}>

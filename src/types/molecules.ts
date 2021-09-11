@@ -1,15 +1,18 @@
 import { Dispatch, SetStateAction } from 'react'
 import { TodoType } from 'types/data'
 
+export type LayoutType = {
+  setTaskList?: Dispatch<SetStateAction<TodoType[]>>
+}
+
 export type NavbarType = { setShow: Dispatch<SetStateAction<boolean>> }
 
-export type SidebarType = {
+export interface SidebarType extends LayoutType {
   show: boolean
   setShow: Dispatch<SetStateAction<boolean>>
 }
 
 export interface ModalType extends SidebarType {
-  setTaskList?: Dispatch<SetStateAction<TodoType[]>>
   data?: TodoType
 }
 

@@ -1,13 +1,14 @@
 import gql from 'graphql-tag'
 
 export const GET_TODO_LIST = gql`
-  query TodoList {
-    todosList(orderBy: [id_ASC]) {
+  query TodosList($category: StringPredicate!) {
+    todosList(orderBy: [id_ASC], filter: { category: $category }) {
       items {
         id
         task
         completed
         limitDate
+        category
       }
     }
   }
@@ -20,6 +21,7 @@ export const CREATE_TASK = gql`
       task
       completed
       limitDate
+      category
     }
   }
 `
@@ -34,6 +36,7 @@ export const UPDATE_TASK = gql`
       task
       completed
       limitDate
+      category
     }
   }
 `
@@ -45,6 +48,7 @@ export const COMPLETE_TASK = gql`
       task
       completed
       limitDate
+      category
     }
   }
 `

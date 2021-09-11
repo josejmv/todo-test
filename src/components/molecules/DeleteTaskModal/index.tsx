@@ -1,11 +1,12 @@
 // main tools
+import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 // lib
 import { DELETE_TASK } from 'lib/queries/Todo'
 
 // bootstrap components
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Spinner } from 'react-bootstrap'
 
 // styles
 import styles from 'styles/components/taskmodal.module.scss'
@@ -23,6 +24,8 @@ export const DeleteTaskModal: FC<ModalType> = ({
   setTaskList,
   data,
 }) => {
+  const [loading, setLoading] = useState(false)
+
   /**
    * mutation for delete task
    */
@@ -38,9 +41,10 @@ export const DeleteTaskModal: FC<ModalType> = ({
    */
   const handleDelete = async () => {
     try {
+      setLoading(true)
       const response = await deleteTask()
-
       setTaskList((prev) => [...prev.filter((task) => task.id !== data.id)])
+      setLoading(false)
       setShow(false)
     } catch (error) {
       console.log(error)
@@ -58,8 +62,14 @@ export const DeleteTaskModal: FC<ModalType> = ({
         <Modal.Title>Delete Task</Modal.Title>
       </Modal.Header>
       <Modal.Body className='text-center'>
-        <h3>Are you sure?</h3>
-        <h5>This action is irreversible</h5>
+        {loading ? (
+          <Spinner animation='grow' variant='dark' />
+        ) : (
+          <>
+            <h3>Are you sure?</h3>
+            <h5>This action is irreversible</h5>
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant='outline-dark' onClick={handleClose}>

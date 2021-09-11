@@ -5,8 +5,11 @@ import { useMutation } from '@apollo/client'
 // lib
 import { CREATE_TASK } from 'lib/queries/Todo'
 
+// utils
+import { categoriesList } from 'globalData/categoriesList'
+
 // bootstrap components
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, Dropdown } from 'react-bootstrap'
 
 // prime components
 import { Calendar, CalendarChangeParams } from 'primereact/calendar'
@@ -22,6 +25,7 @@ import { ChangeType, SubmitType } from 'types/utils'
 
 const INITIAL_DATA = {
   task: '',
+  category: '',
   completed: false,
   limitDate: null,
 }
@@ -35,13 +39,14 @@ export const CreateTaskModal: FC<ModalType> = ({
   setTaskList,
 }) => {
   const [validated, setValidated] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('General')
   const [task, setTask] = useState<TodoType>(INITIAL_DATA)
 
   /**
    * Mutation for create task
    */
   const [createTask, res] = useMutation(CREATE_TASK, {
-    variables: { data: task },
+    variables: { data: { ...task, category: selectedCategory } },
   })
 
   const handleClose = () => setShow(false)
@@ -71,7 +76,13 @@ export const CreateTaskModal: FC<ModalType> = ({
       try {
         const response = await createTask()
 
-        setTaskList((prev) => [...prev, { ...response.data.todoCreate }])
+        setTaskList((prev) => {
+          const update = [...prev]
+          if (response.data.todoCreate.category === selectedCategory)
+            update.push({ ...response.data.todoCreate })
+
+          return update
+        })
         setTask(INITIAL_DATA)
         setShow(false)
       } catch (error) {
@@ -112,6 +123,7 @@ export const CreateTaskModal: FC<ModalType> = ({
             <Form.Label>Limit date</Form.Label>
             <div>
               <Calendar
+                required={selectedCategory === 'Important' ? true : false}
                 className={styles.calendar}
                 panelClassName={styles.calendar_panel}
                 baseZIndex={99999}
@@ -122,8 +134,24 @@ export const CreateTaskModal: FC<ModalType> = ({
               />
             </div>
             <Form.Control.Feedback type='invalid'>
-              Please write your task
+              Please select a date
             </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mt-3 d-flex align-items-center justify-content-between'>
+            <Form.Label className='mb-0'>Category</Form.Label>
+            <Dropdown onSelect={setSelectedCategory} defaultValue='General'>
+              <Dropdown.Toggle variant='outline-dark'>
+                {selectedCategory}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {categoriesList.map((category) => (
+                  <Dropdown.Item key={category} eventKey={category}>
+                    {category}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

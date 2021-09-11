@@ -38,7 +38,7 @@ const HomePage: NextPage<GetSSPropsType<typeof getServerSideProps>> = ({
   const [createTask, setCreateTask] = useState(false)
 
   return (
-    <Layout>
+    <Layout setTaskList={setTaskList}>
       <Container className={styles.container}>
         <h1>Todo list</h1>
         <div className={styles.list}>
@@ -72,7 +72,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
     const apolloClient = initializeApolloClient()
-    const res = await apolloClient.query<TodoListType>({ query: GET_TODO_LIST })
+    const res = await apolloClient.query<TodoListType>({
+      query: GET_TODO_LIST,
+      variables: { category: { equals: 'General' } },
+    })
     return { props: { ...res } }
   } catch (error) {
     console.log(error)

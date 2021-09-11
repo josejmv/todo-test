@@ -2,9 +2,8 @@ export type TodoType = {
   id?: string
   task: string
   completed: boolean
+  category?: string
   limitDate?: Date | string
-  Todos?: TodoType
-  SubTasks?: TodoType[]
 }
 
 export type TodoListType = {
