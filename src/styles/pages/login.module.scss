@@ -7,7 +7,9 @@
   align-items: center;
 
   .card {
-    width: 30%;
+    max-width: 400px;
+    width: 100%;
+
     &_header {
       text-align: center;
       & > h1 {

@@ -78,7 +78,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     })
     return { props: { ...res } }
   } catch (error) {
-    console.log(error)
+    console.log('ERROR', error)
     return { redirect: { destination: '/login', permanent: false } }
   }
 }

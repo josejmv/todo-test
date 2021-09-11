@@ -32,7 +32,6 @@ export const TaskItem: FC<TaskItemType> = (props) => {
   const [editTask, setEditTask] = useState(false)
   const [deleteTask, setDeleteTask] = useState(false)
   const [completed, setCompleted] = useState(props.completed)
-  console.log(props.completed, completed)
 
   /**
    * complete task mutation
@@ -55,7 +54,7 @@ export const TaskItem: FC<TaskItemType> = (props) => {
         variables: { id: props.id, completed: ev.target.checked },
       })
     } catch (error) {
-      console.log(error)
+      console.log('ERROR', error)
     }
   }
 
