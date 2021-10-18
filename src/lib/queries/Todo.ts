@@ -9,6 +9,7 @@ export const GET_TODO_LIST = gql`
         completed
         limitDate
         category
+        author
       }
     }
   }
@@ -22,21 +23,34 @@ export const CREATE_TASK = gql`
       completed
       limitDate
       category
+      author
     }
   }
 `
 
 export const UPDATE_TASK = gql`
-  mutation UpdateTask($id: ID!, $task: String!, $limitDate: String) {
+  mutation UpdateTask(
+    $id: ID!
+    $task: String!
+    $limitDate: String
+    $author: String
+    $completed: Boolean
+  ) {
     todoUpdate(
       filter: { id: $id }
-      data: { task: $task, limitDate: $limitDate }
+      data: {
+        task: $task
+        limitDate: $limitDate
+        author: $author
+        completed: $completed
+      }
     ) {
       id
       task
       completed
       limitDate
       category
+      author
     }
   }
 `
@@ -49,6 +63,7 @@ export const COMPLETE_TASK = gql`
       completed
       limitDate
       category
+      author
     }
   }
 `
