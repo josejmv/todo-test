@@ -12,13 +12,13 @@ import { EmptyListType } from 'types/atoms'
 /**
  * @param handleAdd set true to create task modal
  */
-export const EmptyList: FC<EmptyListType> = ({ handleAdd }) => (
+export const EmptyList: FC<EmptyListType> = ({ empty, handleAdd }) => (
   <Button
     onClick={() => handleAdd(true)}
     variant='outline-light'
     className={styles.container}
   >
-    <h3 className={styles.text}>List is empty</h3>
+    <h3 className={styles.text}>{empty ? 'List is empty' : 'Add new task'}</h3>
     <PlusLg />
   </Button>
 )

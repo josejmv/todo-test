@@ -33,25 +33,35 @@ import { TodoListType, TodoType } from 'types/data'
  */
 const HomePage: NextPage<GetSSPropsType<typeof getServerSideProps>> = ({
   data,
+  session,
 }) => {
   const [taskList, setTaskList] = useState<TodoType[]>(data.todosList.items)
   const [createTask, setCreateTask] = useState(false)
 
   return (
-    <Layout setTaskList={setTaskList}>
+    <Layout session={session} setTaskList={setTaskList}>
       <Container className={styles.container}>
         <h1>Todo list</h1>
         <div className={styles.list}>
           <div className={styles.list_empty}>
-            <EmptyList handleAdd={setCreateTask} />
+            <EmptyList
+              empty={taskList.length === 0}
+              handleAdd={setCreateTask}
+            />
             <CreateTaskModal
+              session={session}
               show={createTask}
               setShow={setCreateTask}
               setTaskList={setTaskList}
             />
           </div>
           {taskList.map((todo, idx) => (
-            <TaskItem key={idx} {...todo} handleEdit={setTaskList} />
+            <TaskItem
+              key={idx}
+              {...todo}
+              session={session}
+              handleEdit={setTaskList}
+            />
           ))}
         </div>
       </Container>
@@ -76,7 +86,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       query: GET_TODO_LIST,
       variables: { category: { equals: 'General' } },
     })
-    return { props: { ...res } }
+    return { props: { ...res, session } }
   } catch (error) {
     console.log('ERROR', error)
     return { redirect: { destination: '/login', permanent: false } }

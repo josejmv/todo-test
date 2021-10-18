@@ -26,6 +26,7 @@ import { ChangeType, SubmitType } from 'types/utils'
 export const EditTaskModal: FC<ModalType> = ({
   show,
   data,
+  session,
   setShow,
   setTaskList,
 }) => {
@@ -44,8 +45,14 @@ export const EditTaskModal: FC<ModalType> = ({
   /**
    * update task mutation
    */
-  const [updateTask, res] = useMutation(UPDATE_TASK, {
-    variables: { id: data.id, task: task.task, limitDate: task.limitDate },
+  const [updateTask] = useMutation(UPDATE_TASK, {
+    variables: {
+      id: data.id,
+      task: task.task,
+      limitDate: task.limitDate,
+      author: session.user.email,
+      completed: false,
+    },
   })
 
   const handleClose = () => setShow(false)
@@ -55,10 +62,7 @@ export const EditTaskModal: FC<ModalType> = ({
    */
   const handleChange = (ev: ChangeType & CalendarChangeParams) => {
     validated && setValidated(false)
-    setTask((prev) => ({
-      ...prev,
-      [ev.target.name]: ev.target.value,
-    }))
+    setTask((prev) => ({ ...prev, [ev.target.name]: ev.target.value }))
   }
 
   /**
@@ -74,8 +78,9 @@ export const EditTaskModal: FC<ModalType> = ({
         const response = await updateTask()
 
         setTaskList((prev) => [
-          ...prev.filter((item) => item.id !== data.id),
-          { ...response.data.todoUpdate },
+          ...prev.map((item) =>
+            item.id !== data.id ? item : { ...response.data.todoUpdate }
+          ),
         ])
         setShow(false)
       } catch (error) {

@@ -1,6 +1,6 @@
 // main tools
 import { useState, useEffect } from 'react'
-import { useSession, signOut } from 'next-auth/client'
+import { signOut } from 'next-auth/client'
 import { useLazyQuery } from '@apollo/client'
 
 // lib
@@ -10,7 +10,7 @@ import { GET_TODO_LIST } from 'lib/queries/Todo'
 import { categoriesList } from 'globalData/categoriesList'
 
 // bootstrap components
-import { Spinner, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 // prime components
 import { Sidebar as PrSidebar } from 'primereact/sidebar'
@@ -25,9 +25,13 @@ import { FC } from 'react'
 import { SidebarType } from 'types/molecules'
 import { TodoListType } from 'types/data'
 
-export const Sidebar: FC<SidebarType> = ({ show, setShow, setTaskList }) => {
+export const Sidebar: FC<SidebarType> = ({
+  show,
+  setShow,
+  session,
+  setTaskList,
+}) => {
   const [avatarState, setAvatarState] = useState({})
-  const [session, loading] = useSession()
 
   /**
    * Query for list task by category
@@ -41,18 +45,16 @@ export const Sidebar: FC<SidebarType> = ({ show, setShow, setTaskList }) => {
 
   useEffect(() => {
     data?.todosList && setTaskList(data.todosList.items)
-  }, [data])
+  }, [data, setTaskList])
 
   /**
    * verify the session and set the
    * avatar picture or initial letter to show
    */
   useEffect(() => {
-    if (session) {
-      if (session.user.image) setAvatarState({ image: session.user.image })
-      else setAvatarState({ label: session.user.name[0].toUpperCase() })
-    }
-  }, [session, loading])
+    if (session.user.image) setAvatarState({ image: session.user.image })
+    else setAvatarState({ label: session.user.name[0].toUpperCase() })
+  }, [setAvatarState, session.user])
 
   return (
     <PrSidebar
@@ -61,33 +63,27 @@ export const Sidebar: FC<SidebarType> = ({ show, setShow, setTaskList }) => {
       visible={show}
       onHide={() => setShow(false)}
     >
-      {loading ? (
-        <Spinner animation='grow' variant='primary' />
-      ) : (
-        session && (
-          <div>
-            <Avatar
-              shape='circle'
-              size='xlarge'
-              className={styles.avatar}
-              {...avatarState}
-            />
-            <p>{session.user.name}</p>
-            <Divider />
-            <h3>Todo Tasks</h3>
-            {categoriesList.map((button) => (
-              <Button
-                key={button}
-                onClick={() => handleClick(button)}
-                className={styles.category}
-                variant='outline-light'
-              >
-                {button}
-              </Button>
-            ))}
-          </div>
-        )
-      )}
+      <div>
+        <Avatar
+          shape='circle'
+          size='xlarge'
+          className={styles.avatar}
+          {...avatarState}
+        />
+        <p>{session.user.name}</p>
+        <Divider />
+        <h3>Todo Tasks</h3>
+        {categoriesList.map((button) => (
+          <Button
+            key={button}
+            onClick={() => handleClick(button)}
+            className={styles.category}
+            variant='outline-light'
+          >
+            {button}
+          </Button>
+        ))}
+      </div>
       <Button
         variant='outline-light'
         type='button'

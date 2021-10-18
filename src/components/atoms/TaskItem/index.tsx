@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client'
 import { COMPLETE_TASK } from 'lib/queries/Todo'
 
 // bootstrap components
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { Pencil, Trash } from 'react-bootstrap-icons'
 
 // components
@@ -36,7 +36,7 @@ export const TaskItem: FC<TaskItemType> = (props) => {
   /**
    * complete task mutation
    */
-  const [completeTask, res] = useMutation(COMPLETE_TASK)
+  const [completeTask] = useMutation(COMPLETE_TASK)
 
   /**
    * Format date value for show as dd/mm/yy format
@@ -45,14 +45,19 @@ export const TaskItem: FC<TaskItemType> = (props) => {
     const formatedDate = new Date(date)
     return `${formatedDate.getDate()}/${formatedDate.getMonth()}/${formatedDate.getFullYear()}`
   }
+
+  const renderTooltip = (author: string) => (
+    <Tooltip id='author-tooltip'>{author.split('@')[0]}</Tooltip>
+  )
+
   const handleEdit = () => setEditTask(true)
   const handleDelete = () => setDeleteTask(true)
   const handleComplete = async (ev: ChangeType) => {
     try {
-      setCompleted(ev.target.checked)
       const res = await completeTask({
         variables: { id: props.id, completed: ev.target.checked },
       })
+      setCompleted(res.data?.todoUpdate?.completed)
     } catch (error) {
       console.log('ERROR', error)
     }
@@ -61,38 +66,43 @@ export const TaskItem: FC<TaskItemType> = (props) => {
   useEffect(() => setCompleted(props.completed), [props.completed])
 
   return (
-    <div className={styles.container}>
-      <Form.Check
-        inline
-        label={props.task}
-        className={[
-          styles.checkbox,
-          completed ? styles.checkbox_completed : '',
-        ].join(' ')}
-        checked={completed}
-        onChange={handleComplete}
-      />
-      <div className={styles.actions}>
-        {props.limitDate && <span>{showDate(props.limitDate as string)}</span>}
-        <Button onClick={handleEdit} variant='outline'>
-          <Pencil />
-        </Button>
-        <Button onClick={handleDelete} variant='outline'>
-          <Trash />
-        </Button>
+    <OverlayTrigger placement='left' overlay={renderTooltip(props.author)}>
+      <div className={styles.container}>
+        <Form.Check
+          inline
+          label={props.task}
+          className={[
+            styles.checkbox,
+            completed ? styles.checkbox_completed : '',
+          ].join(' ')}
+          checked={completed}
+          onChange={handleComplete}
+        />
+        <div className={styles.actions}>
+          {props.limitDate && (
+            <span>{showDate(props.limitDate as string)}</span>
+          )}
+          <Button onClick={handleEdit} variant='outline'>
+            <Pencil />
+          </Button>
+          <Button onClick={handleDelete} variant='outline'>
+            <Trash />
+          </Button>
+        </div>
+        <EditTaskModal
+          session={props.session}
+          show={editTask}
+          setShow={setEditTask}
+          setTaskList={(data) => props.handleEdit(data)}
+          data={{ ...props }}
+        />
+        <DeleteTaskModal
+          show={deleteTask}
+          setShow={setDeleteTask}
+          setTaskList={props.handleEdit}
+          data={{ ...props }}
+        />
       </div>
-      <EditTaskModal
-        show={editTask}
-        setShow={setEditTask}
-        setTaskList={props.handleEdit}
-        data={{ ...props }}
-      />
-      <DeleteTaskModal
-        show={deleteTask}
-        setShow={setDeleteTask}
-        setTaskList={props.handleEdit}
-        data={{ ...props }}
-      />
-    </div>
+    </OverlayTrigger>
   )
 }

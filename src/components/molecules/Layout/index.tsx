@@ -13,13 +13,22 @@ import { LayoutType } from 'types/molecules'
  * shared components like navbar and
  * sidebar in all the web site
  */
-export const Layout: FC<LayoutType> = ({ setTaskList = null, children }) => {
+export const Layout: FC<LayoutType> = ({
+  setTaskList = null,
+  session,
+  children,
+}) => {
   const [show, setShow] = useState(false)
 
   return (
     <>
       <Navbar setShow={setShow} />
-      <Sidebar setTaskList={setTaskList} show={show} setShow={setShow} />
+      <Sidebar
+        session={session}
+        setTaskList={setTaskList}
+        show={show}
+        setShow={setShow}
+      />
       <main>{children}</main>
     </>
   )

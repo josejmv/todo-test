@@ -3,6 +3,7 @@ export type TodoType = {
   task: string
   completed: boolean
   category?: string
+  author: string
   limitDate?: Date | string
 }
 

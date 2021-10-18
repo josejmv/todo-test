@@ -1,6 +1,21 @@
 {
   "name": "todo-test",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jose Vasquez",
+    "email": "josejmvasquez@gmail.com",
+    "url": "https://josejmv.vercel.app"
+  },
+  "keywords": [
+    "Next.js",
+    "React.js",
+    "Vercel",
+    "8base",
+    "8 base",
+    "Cypress",
+    "Todo"
+  ],
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -12,14 +12,8 @@ import { Account, Profile, User, Session } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 
 const options = {
-  pages: {
-    error: '/login', // custom error page with query string as ?error=
-  },
-
-  session: {
-    // initial value in seconds
-    maxAge: 30 * 60, // logout on a half hour of inactivity
-  },
+  pages: { error: '/login' }, // custom error page with query string as ?error=
+  session: { maxAge: 30 * 60 }, // initial value in seconds, logout on a half hour of inactivity
 
   providers: [
     Providers.Google({
@@ -30,14 +24,10 @@ const options = {
     Providers.Credentials({
       name: 'credentials',
       id: 'credentials',
-      credentials: {
-        email: { type: 'email' },
-        password: { type: 'password' },
-      },
+      credentials: { email: { type: 'email' }, password: { type: 'password' } },
 
       /**
-       * verify if the email is found in 8base
-       * and if the password is equal to "JoseJMV"
+       * verify if the email is found in 8base as josejmvasquez@gmail.com
        *
        * @param credentials
        * @returns
@@ -46,10 +36,10 @@ const options = {
         const apolloClient = initializeApolloClient()
         const { data } = await apolloClient.query({
           query: GET_USER_BY_EMAIL,
-          variables: { email: credentials.email },
+          variables: { email: 'josejmvasquez@gmail.com' },
         })
 
-        if (data.user && credentials.password === 'JoseJMV')
+        if (data.user)
           return {
             name: credentials.email.split('@')[0],
             email: credentials.email,
@@ -81,7 +71,7 @@ const options = {
         const apolloClient = initializeApolloClient()
         const response = await apolloClient.query({
           query: GET_USER_BY_EMAIL,
-          variables: { email: data?.email },
+          variables: { email: 'josejmvasquez@gmail.com' },
         })
 
         if (!response.data.user) token = null
@@ -96,10 +86,8 @@ const options = {
      *
      * @return session that will be returned to the client
      */
-    session: (session: Session, token: JWT) => {
-      session = { ...session, ...token }
-      return Promise.resolve(session)
-    },
+    session: (session: Session, token: JWT) =>
+      Promise.resolve({ ...session, ...token }),
   },
 }
 

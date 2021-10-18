@@ -26,6 +26,7 @@ import { ChangeType, SubmitType } from 'types/utils'
 const INITIAL_DATA = {
   task: '',
   category: '',
+  author: '',
   completed: false,
   limitDate: null,
 }
@@ -37,6 +38,7 @@ export const CreateTaskModal: FC<ModalType> = ({
   show,
   setShow,
   setTaskList,
+  session,
 }) => {
   const [validated, setValidated] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('General')
@@ -46,7 +48,9 @@ export const CreateTaskModal: FC<ModalType> = ({
    * Mutation for create task
    */
   const [createTask, res] = useMutation(CREATE_TASK, {
-    variables: { data: { ...task, category: selectedCategory } },
+    variables: {
+      data: { ...task, category: selectedCategory, author: session.user.email },
+    },
   })
 
   const handleClose = () => setShow(false)
