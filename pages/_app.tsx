@@ -44,7 +44,10 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
         <meta property='og:url' content={permalink} />
         <meta property='og:type' content='website' />
         <meta property='og:title' content='Todo Test' />
-        <meta property='og:description' content='Todo test' />
+        <meta
+          property='og:description'
+          content='Todo test, personal project made by JoseJMV'
+        />
         {/* <meta property='og:image' content={metaData.ogImage?.url} /> */}
       </Head>
 
