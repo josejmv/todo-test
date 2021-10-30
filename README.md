@@ -1,4 +1,4 @@
-[![GitHub contributors](https://img.shields.io/github/contributors/josejmv/todo-test)](https://github.com/josejmv/todo-test/graphs/contributors) ![Tested Next.js versions](https://img.shields.io/badge/tested%20next.js%20versions-10.2.3%20|%2011.x-blue) [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
+[![contributors](https://img.shields.io/github/contributors/josejmv/todo-test)](https://github.com/josejmv/todo-test/graphs/contributors) [![forks](https://img.shields.io/github/forks/josejmv/todo-test)](https://github.com/josejmv/todo-test/fork) ![stars](https://img.shields.io/github/stars/josejmv/todo-test) ![License](https://img.shields.io/github/license/josejmv/todo-test) ![followers](https://img.shields.io/github/followers/josejmv.svg?style=social&label=JoseJMV&maxAge=2592000) ![Tested Next.js versions](https://img.shields.io/badge/tested%20next.js%20versions-11.x-blue) [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
 ## Todo practice
 
@@ -30,4 +30,8 @@ Check out the [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 # License
 
-MIT, **Free Software**
+MIT [licensed](LICENSE).
+
+# Socials
+
+[![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/josemvasquezv) [![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/josejmv) [![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/josejmv)
